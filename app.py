@@ -14,7 +14,7 @@ def get_db_connection():
     return connection
 
 
-@app.route('/health')
+@app.route('/health') # To show that the application is up and running
 def health():
     return jsonify({"status": "UP"})
 
