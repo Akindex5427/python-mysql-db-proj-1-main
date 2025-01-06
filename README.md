@@ -1,1 +1,1 @@
-# python-mysql-db-proj-1-main
+# python-mysql-db-proj-1
