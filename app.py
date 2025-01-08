@@ -18,46 +18,45 @@ def get_db_connection():
 def health():
     return "Up & Running"
 
-
 @app.route('/create_table')
 def create_table():
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("CREATE TABLE users (id INT, name VARCHAR(255))")
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS example_table (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL
+        )
+    """
+    cursor.execute(create_table_query)
     connection.commit()
     connection.close()
-    return jsonify({"status": "Table Created"})
-
+    return "Table created successfully"
 
 @app.route('/insert_record', methods=['POST'])
 def insert_record():
     name = request.json['name']
     connection = get_db_connection()
     cursor = connection.cursor()
-    insert_query = "INSERT INTO example_table (name) VALUES ('{}')".format(
-        name)
+    insert_query = "INSERT INTO example_table (name) VALUES (%s)"
     cursor.execute(insert_query, (name,))
     connection.commit()
     connection.close()
-    return jsonify({"status": "Record Inserted"})
-
+    return "Record inserted successfully"
 
 @app.route('/data')
 def data():
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM example_table")
-    records = cursor.fetchall()
+    cursor.execute('SELECT * FROM example_table')
+    result = cursor.fetchall()
     connection.close()
-    return jsonify(records)
+    return jsonify(result)
 
 # UI route
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0')
