@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # define a flask function to get database connection using pymsql method
 def get_db_connection():
-    connection = pymysql.connect(host='mydb.cqz7h2q6z5qg.us-west-1.rds.amazonaws.com',
+    connection = pymysql.connect(host='mydb.cfwcwqwo8o14.us-west-1.rds.amazonaws.com',
                                  user='dbuser',
                                  password='dbpassword',
                                  db='devprojdb',
